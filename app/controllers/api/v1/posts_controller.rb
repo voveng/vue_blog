@@ -9,7 +9,7 @@ module Api
       end
 
       def show
-        render json: @post
+        render json: [post: @post, comments: @post.comments]
       end
 
       def edit

@@ -3,7 +3,6 @@ module Posts
     object :post
 
     def execute
-      debugger
       post.destroy
     end
   end
