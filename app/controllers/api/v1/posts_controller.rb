@@ -26,7 +26,7 @@ module Api
         subject = Posts::UpdatePost.run post_params.merge(post: @post )
         return render_resource_errors subject unless subject.valid?
 
-        render_success subject
+        render_success
       end
 
       def destroy
