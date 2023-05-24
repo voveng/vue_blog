@@ -15,7 +15,7 @@ module Api
     def render_success(resource = nil, status: :ok)
       result = { success: true }
       result.merge!(resource) if resource
-      render json: result, status:
+      render json: result, status: status
     end
   end
 end

@@ -13,7 +13,6 @@ module Api
       end
 
       def edit
-
       end
 
       def create
@@ -24,11 +23,14 @@ module Api
       end
 
       def update
+        subject = Posts::UpdatePost.run post_params.merge(post: @post )
+        return render_resource_errors subject unless subject.valid?
 
+        render_success subject
       end
 
       def destroy
-
+        Posts::DestroyPost.run post: @post
       end
 
       private
