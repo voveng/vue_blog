@@ -1,19 +1,24 @@
 module Api
   module V1
     class PostsController < Api::BaseController
-      skip_before_action :verify_authenticity_token
-      
+      before_action :set_post, only: %i[edit show update destroy]
+
       def index
-        @posts = Post.all
+        posts = Post.all
+        render json: posts
       end
 
       def show
+        render json: @post
+      end
+
+      def edit
 
       end
 
       def create
-        subject = Posts::CreatePost run post_params
-        return resource_errors subject unless subject.valid?
+        subject = Posts::CreatePost.run post_params
+        return render_resource_errors subject unless subject.valid?
 
         render json: subject if subject.valid?
       end
@@ -27,6 +32,10 @@ module Api
       end
 
       private
+
+      def set_post
+        @post = Post.find(params[:id])
+      end
 
       def post_params
         params.fetch(:post, {}).permit(:id, :title, :body)
