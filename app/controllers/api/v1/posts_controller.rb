@@ -31,6 +31,8 @@ module Api
 
       def destroy
         Posts::DestroyPost.run post: @post
+
+        render_success
       end
 
       private

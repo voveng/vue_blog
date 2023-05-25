@@ -12,11 +12,19 @@ module Api
       end
 
       def update
+        comment = Comment.find(params[:id])
+        subject = Comments::UpdateComment.run comment_params.merge(comment: comment)
 
+        return render_resource_errors subject unless subject.valid?
+
+        render_success
       end
 
       def destroy
-
+        comment =Comment.find(params[:id])
+        Comments::DestroyComment.run comment:comment
+        
+        render_success
       end
 
       private
