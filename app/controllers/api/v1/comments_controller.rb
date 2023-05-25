@@ -1,19 +1,20 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class CommentsController < Api::BaseController
-
       def create
         post = Post.find(params[:post_id])
-        subject = Comments::CreateComment.run comment_params.merge(post: post)
+        subject = Comments::CreateComment.run comment_params.merge(post:)
 
         return render_resource_errors subject unless subject.valid?
 
-        render json: [post: post, comments: post.comments] if subject.valid?
+        render json: [post:, comments: post.comments] if subject.valid?
       end
 
       def update
         comment = Comment.find(params[:id])
-        subject = Comments::UpdateComment.run comment_params.merge(comment: comment)
+        subject = Comments::UpdateComment.run comment_params.merge(comment:)
 
         return render_resource_errors subject unless subject.valid?
 
@@ -21,9 +22,9 @@ module Api
       end
 
       def destroy
-        comment =Comment.find(params[:id])
-        Comments::DestroyComment.run comment:comment
-        
+        comment = Comment.find(params[:id])
+        Comments::DestroyComment.run(comment:)
+
         render_success
       end
 

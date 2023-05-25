@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class PostsController < Api::BaseController
@@ -12,8 +14,7 @@ module Api
         render json: [post: @post, comments: @post.comments]
       end
 
-      def edit
-      end
+      def edit; end
 
       def create
         subject = Posts::CreatePost.run post_params
@@ -23,7 +24,7 @@ module Api
       end
 
       def update
-        subject = Posts::UpdatePost.run post_params.merge(post: @post )
+        subject = Posts::UpdatePost.run post_params.merge(post: @post)
         return render_resource_errors subject unless subject.valid?
 
         render_success

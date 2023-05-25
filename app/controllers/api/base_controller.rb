@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module Api
   class BaseController < ActionController::API
-
     def render_errors(errors: [], status: :unprocessable_entity)
       render json: { success: false, errors: }, status:
     end
