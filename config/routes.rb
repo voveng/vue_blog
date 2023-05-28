@@ -8,6 +8,14 @@ Rails.application.routes.draw do
       end
       post :sign_up, to: 'users#create'
       post :sign_in, to: 'users#sign_in'
+
+      resources :profile, only: %i[], controller: 'users' do
+        collection do
+          delete 'destroy'
+          put 'update'
+          get 'show'
+        end
+      end
     end
   end
 end

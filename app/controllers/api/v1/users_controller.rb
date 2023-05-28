@@ -25,10 +25,19 @@ module Api
         render_success({ token: subject.result })
       end
 
+      def update
+        user = User.find(params[:user][:id])
+
+        subject = Users::UpdateUser.run user_params.merge(user:)
+        return render_resource_errors subject unless subject.valid?
+
+        render_success
+      end
+
       private
 
       def user_params
-        params.require(:user).permit(:name, :email, :password, :password_confirmation)
+        params.require(:user).permit(:id, :name, :email, :password, :password_confirmation, :current_password)
       end
     end
   end
