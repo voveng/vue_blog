@@ -6,6 +6,8 @@ Rails.application.routes.draw do
       resources :posts do
         resources :comments, only: %i[create update destroy]
       end
+      post :sign_up, to: 'users#create'
+      post :sign_in, to: 'users#sign_in'
     end
   end
 end

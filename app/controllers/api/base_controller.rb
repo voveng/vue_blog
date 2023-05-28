@@ -10,7 +10,7 @@ module Api
       result = resource.errors.attribute_names.map do |attr|
         { key: attr, messages: resource.errors.full_messages_for(attr) }
       end
-      render_errors result, status:
+      render_errors errors: result, status:
     end
 
     def render_success(resource = nil, status: :ok)
