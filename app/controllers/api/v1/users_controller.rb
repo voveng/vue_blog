@@ -34,6 +34,14 @@ module Api
         render_success
       end
 
+      def destroy
+        user = User.find(params[:id])
+        subject = Users::DestroyUser.run user: user
+        return render_resource_errors subject unless subject.valid?
+
+        render_success
+      end
+
       private
 
       def user_params
