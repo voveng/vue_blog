@@ -17,7 +17,7 @@ class CreateJwtToken < ActiveInteraction::Base
   attr_reader :invalid
 
   def check_user
-    @user = User.find_by( email: email )&.authenticate(password)
+    @user = User.find_by(email: email)&.authenticate(password)
     errors.add :invalid, :sign_in unless @user
   end
 

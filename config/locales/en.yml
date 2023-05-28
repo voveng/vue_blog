@@ -34,3 +34,4 @@ en:
   users:
     errors:
       required: 'Current password missing'
+      wrong: 'Current password wrong'

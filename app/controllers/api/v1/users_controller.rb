@@ -2,7 +2,8 @@
 
 module Api
   module V1
-    class UsersController < Api::BaseController
+    class UsersController < Api::AuthenticatedController
+      skip_before_action :authorize, only: [:create]
 
       def show
         user = User.find(params[:id])
@@ -26,17 +27,14 @@ module Api
       end
 
       def update
-        user = User.find(params[:user][:id])
-
-        subject = Users::UpdateUser.run user_params.merge(user:)
+        subject = Users::UpdateUser.run user_params.merge(user: current_user)
         return render_resource_errors subject unless subject.valid?
 
         render_success
       end
 
       def destroy
-        user = User.find(params[:id])
-        subject = Users::DestroyUser.run user: user
+        subject = Users::DestroyUser.run user: current_user
         return render_resource_errors subject unless subject.valid?
 
         render_success
