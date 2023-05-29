@@ -31,3 +31,7 @@
 
 en:
   hello: "Hello world"
+  users:
+    errors:
+      required: 'Current password missing'
+      wrong: 'Current password wrong'
