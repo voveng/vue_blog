@@ -1,24 +1,27 @@
-# README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## В проекте используется:
+* Ruby 3.2.2
+* Rails 7.0.4
+* PostgreSQL 14.6
+* Redis
+* Node JS 16
+* Yarn 1.22
 
-Things you may want to cover:
+```
 
-* Ruby version
+## Запуск проекта по классике
+1. Настроить локальное окружение (Ruby etc.)
+2. Скачать или склонировать репозиторий
+3. Запустить bundler  для установки нужных гемов и зависимостей
 
-* System dependencies
+```
+5. Создать и настроить базу данных для проекта
+```bash
+$ rails db:prepare
+```
+6. Запустить проект
+```bash
+$ rails s
+```
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Проект доступен по ссылке http://localhost:3000/
