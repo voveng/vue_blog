@@ -17,7 +17,7 @@ module Api
     end
 
     def current_user
-      user = User.find_by(id: @current_user_id)
+      user ||= User.find_by(id: @current_user_id)
       raise Api::AuthenticatedController::UserNotAuthorized unless user
 
       user

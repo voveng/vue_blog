@@ -3,11 +3,10 @@
 module Api
   module V1
     class UsersController < Api::AuthenticatedController
-      skip_before_action :authorize, only: [:create]
+      skip_before_action :authorize, only: %i[create sign_in]
 
       def show
-        user = User.find(params[:id])
-        render json: user
+        render json: current_user
       end
 
       def create
@@ -20,7 +19,7 @@ module Api
       end
 
       def sign_in
-        subject = CreateJwtToken.run params
+        subject = CreateJwtToken.run user_params
         return render_resource_errors subject, status: :unauthorized unless subject.valid?
 
         render_success({ token: subject.result })
