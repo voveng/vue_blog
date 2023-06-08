@@ -1,5 +1,5 @@
 <script setup>
-   import { ref, onMounted } from 'vue';
+  import { ref, onMounted } from 'vue';
   const posts = ref([])
   const post_id = ref(0)
   const postsUrl = 'http://localhost:3000/api/v1/posts';

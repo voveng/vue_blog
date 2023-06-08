@@ -2,7 +2,6 @@
 </script>
 <template>
   <div class="container header">
-  <router-view></router-view>
     <div class="text"><a href="#/signin">Sign in</a>| <a href="#/signup">Signup</a></div>
   </div>
 </template>
