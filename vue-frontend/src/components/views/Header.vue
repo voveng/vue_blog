@@ -1,10 +1,9 @@
 <script setup>
-
-  console.log('fdfdfdfd')
 </script>
 <template>
   <div class="container header">
-    <div class="text"><a href="#">Sign in</a> | <a href="#">Sign up</a></div>
+  <router-view></router-view>
+    <div class="text"><a href="#/signin">Sign in</a>| <a href="#/signup">Signup</a></div>
   </div>
 </template>
 

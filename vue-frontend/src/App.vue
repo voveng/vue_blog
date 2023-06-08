@@ -7,7 +7,7 @@ import Posts from './components/Posts.vue'
 <header>
   <Header />
 </header>
-
+<router-view></router-view>
   <Posts />
 </template>
 
