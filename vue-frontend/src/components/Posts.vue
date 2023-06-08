@@ -27,9 +27,4 @@
   text-align-last: left;
   margin-left: 50px;
 }
-.posts {
-  width: 100%;
-  height: auto !important;
-  border-radius: 10px;
-}
 </style>
