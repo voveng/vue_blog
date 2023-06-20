@@ -35,6 +35,16 @@ gem 'rspec-rails'
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'faker'
+  gem "capybara"
+  gem "selenium-webdriver"
+  gem "webdrivers"
+  gem 'shoulda-matchers'
+  gem 'rails-controller-testing'
+  gem 'launchy'
+  gem 'capybara-email'
+  gem 'factory_bot_rails'
+  gem 'dotenv-rails'
 end
 
 group :development do

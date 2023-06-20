@@ -5,7 +5,8 @@ module Api
     class CommentsController < Api::BaseController
       def create
         post = Post.find(params[:post_id])
-        subject = Comments::CreateComment.run comment_params.merge(post:)
+        current_user = User.find(params[:user_id])
+        subject = Comments::CreateComment.run comment_params.merge(post:, user: current_user)
 
         return render_resource_errors subject unless subject.valid?
 
@@ -31,7 +32,7 @@ module Api
       private
 
       def comment_params
-        params.require(:comment).permit(:body)
+        params.require(:comment).permit(:body, :user_id)
       end
     end
   end

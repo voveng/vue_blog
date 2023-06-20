@@ -2,6 +2,7 @@
 
 module Posts
   class CreatePost < ActiveInteraction::Base
+    object :user
     string :title, :body
     validates :title, :body, presence: true
 

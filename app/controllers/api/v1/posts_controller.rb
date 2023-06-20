@@ -17,7 +17,8 @@ module Api
       def edit; end
 
       def create
-        subject = Posts::CreatePost.run post_params
+        current_user = User.find(params[:user_id])
+        subject = Posts::CreatePost.run post_params.merge(user: current_user)
         return render_resource_errors subject unless subject.valid?
 
         render json: subject if subject.valid?
@@ -43,7 +44,7 @@ module Api
       end
 
       def post_params
-        params.fetch(:post, {}).permit(:id, :title, :body)
+        params.fetch(:post, {}).permit(:id, :title, :body, :user_id)
       end
     end
   end
