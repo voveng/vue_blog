@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Users
   class CreateUser < ActiveInteraction::Base
     string :name, :email, :password, :password_confirmation

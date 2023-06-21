@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CheckAuthorize < ActiveInteraction::Base
   SECRET_KEY = Rails.configuration.jwt_secret_key
 
@@ -15,7 +17,7 @@ class CheckAuthorize < ActiveInteraction::Base
     token = header.split.last
     decoded = JWT.decode(token, SECRET_KEY, true, { algorithm: 'HS256' })[0]
     @decode_token = HashWithIndifferentAccess.new decoded
-  rescue JWT::DecodeError => error
-    errors.add :authorize, error
+  rescue JWT::DecodeError => e
+    errors.add :authorize, e
   end
 end
