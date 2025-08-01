@@ -17,7 +17,7 @@ module Api
       def edit; end
 
       def create
-        current_user = User.find(params[:user_id])
+        current_user = User.find(params[:post][:user_id])
         subject = Posts::CreatePost.run post_params.merge(user: current_user)
         return render_resource_errors subject unless subject.valid?
 

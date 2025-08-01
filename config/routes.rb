@@ -9,11 +9,11 @@ Rails.application.routes.draw do
       post :sign_up, to: 'users#create'
       post :sign_in, to: 'users#sign_in'
 
-      resources :profile, only: %i[], controller: 'users' do
+      resources :profile, only: %i[show], controller: 'users' do
         collection do
           delete 'destroy'
           put 'update'
-          get 'show'
+          get 'show/:id', action: :show
         end
       end
     end

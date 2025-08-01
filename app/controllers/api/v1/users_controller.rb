@@ -3,7 +3,7 @@
 module Api
   module V1
     class UsersController < Api::AuthenticatedController
-      skip_before_action :authorize, only: %i[create sign_in]
+      skip_before_action :authorize, only: %i[show create sign_in]
 
       def show
         render json: current_user

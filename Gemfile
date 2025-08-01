@@ -21,9 +21,9 @@ gem 'active_interaction', '~> 5.3'
 gem 'bcrypt'
 gem 'jwt'
 gem 'rack-cors'
-
 gem 'rubocop', require: false
 gem 'rubocop-performance', require: false
+gem 'vite_rails'
 
 gem 'rspec-rails'
 
@@ -45,3 +45,5 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
+
+gem 'concurrent-ruby', '~> 1.3.4'

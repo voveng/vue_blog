@@ -28,10 +28,10 @@
 #
 # To learn more, please read the Rails Internationalization guide
 # available at https://guides.rubyonrails.org/i18n.html.
-
 en:
   hello: "Hello world"
   users:
     errors:
+      user_not_authorized: "User not authorized"
       required: 'Current password missing'
       wrong: 'Current password wrong'
