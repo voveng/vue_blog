@@ -1,73 +1,122 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
+import { postsService } from '../services/postsService';
+import { useErrorHandler } from '../composables/useErrorHandler';
+import authStore from '../stores/authStore';
+
 const posts = ref([]);
 const post_id = ref(0);
-const postsUrl = "http://localhost:3000/api/v1/posts";
 const newPost = ref({
   title: "",
   body: "",
 });
 
+const { errors, setError, clearErrors, hasErrors } = useErrorHandler();
+
 const fetchPosts = async () => {
-  posts.value = await fetch(postsUrl).then((res) => res.json());
-};
-const postErrors = ref({
-  title: [],
-  body: [],
-});
-const createPost = async () => {
-  postErrors.value.title = [];
-  postErrors.value.body = [];
   try {
-    const res = await fetch(postsUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        post: {
-          title: newPost.value.title,
-          body: newPost.value.body,
-          user_id: 1,
-        },
-      }),
-    });
-    if (!res.ok) {
-      const errorData = await res.json();
-      Object.keys(errorData.errors).forEach((errorKey) => {
-        postErrors.value[errorKey] = errorData.errors[errorKey];
-      });
-      return;
+    const result = await postsService.getAll();
+    
+    if (result.success) {
+      posts.value = result.data;
+    } else {
+      setError('posts', 'Failed to fetch posts');
     }
-  } catch (error) {}
-  await fetchPosts();
-  newPost.value.title = "";
-  newPost.value.body = "";
+  } catch (error) {
+    setError('posts', 'Unexpected error occurred while fetching posts');
+    console.error('Fetch posts error:', error);
+  }
 };
+
+const createPost = async () => {
+  clearErrors();
+  
+  // Check if user is authenticated before creating post
+  if (!authStore.state.token) {
+    setError('general', 'You must be logged in to create a post');
+    return;
+  }
+  
+  // If user data is not loaded yet, try to use token to make the request
+  // The API service will include the token in the request which will provide user context
+  if (!authStore.currentUserId.value) {
+    console.log("User data not loaded yet, but using available token for request");
+  }
+  
+  const result = await postsService.create({
+    title: newPost.value.title,
+    body: newPost.value.body,
+    user_id: authStore.currentUserId.value, // Use current user's ID
+  });
+
+  if (!result.success) {
+    if (result.details && result.details.errors) {
+      Object.keys(result.details.errors).forEach((errorKey) => {
+        setError(errorKey, result.details.errors[errorKey]);
+      });
+    } else {
+      setError('general', 'Failed to create post');
+    }
+    return;
+  }
+
+  await fetchPosts();
+  newPost.value = { title: "", body: "" };
+};
+
 onMounted(async () => {
   await fetchPosts();
 });
+
 const currentPost = ref(null);
 const showPost = async (id) => {
-  const response = await fetch(`${postsUrl}/${id}`);
-  const data = await response.json();
-  currentPost.value = data;
-  post_id.value = id;
+  try {
+    const result = await postsService.getById(id);
+    if (result.success) {
+      currentPost.value = result.data;
+      post_id.value = id;
+    } else {
+      setError('post', `Failed to fetch post with ID: ${id}`);
+    }
+  } catch (error) {
+    setError('post', 'Unexpected error occurred while fetching post');
+    console.error('Show post error:', error);
+  }
 };
+
+// Computed properties for template
+const postCount = computed(() => posts.value.length);
+const hasNewPostContent = computed(() => 
+  newPost.value.title.trim() !== '' || newPost.value.body.trim() !== ''
+);
+const currentUserId = computed(() => authStore.currentUserId.value);
+const isAuthenticated = computed(() => authStore.isAuthenticated.value);
+const isUserDataLoaded = computed(() => !!authStore.state.user);
 </script>
 <template>
   <h1>Posts</h1>
-  <div v-if="postErrors" class="error-message">
-    <ul>
-      <li v-for="(error, index) in postErrors" :key="index">
-        {{ error.messages }}
-      </li>
-    </ul>
+  
+  <!-- Error display using the composable -->
+  <div v-if="hasErrors" class="error-message">
+    <div v-for="(errorList, field) in errors" :key="field" class="field-errors">
+      <div v-for="(error, index) in errorList" :key="index" class="error-item">
+        <strong>{{ field }}:</strong> {{ error }}
+      </div>
+    </div>
   </div>
-  <div class="new-post">
+  
+  <div v-if="isAuthenticated" class="new-post">
+    <div v-if="!isUserDataLoaded && authStore.state.token" class="loading-user">
+      <p>Loading user data... You can still create posts.</p>
+    </div>
     <input type="text" v-model="newPost.title" placeholder="new title" />
     <input type="text" v-model="newPost.body" placeholder="new body" />
-
     <button @click="createPost">Create Post</button>
   </div>
+  <div v-else class="auth-prompt">
+    <p>Please <router-link to="/signin">sign in</router-link> to create posts.</p>
+  </div>
+  
   <div class="posts">
     <div v-for="post in posts" :key="post.id">
       <h2 class="head">

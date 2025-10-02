@@ -1,14 +1,24 @@
 <script setup>
 import Header from "./components/views/Header.vue";
-import Posts from "./components/Posts.vue";
+import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <header>
-    <Header />
-  </header>
-  <router-view></router-view>
-  <Posts />
+  <div id="app">
+    <header>
+      <Header />
+    </header>
+    <main>
+      <router-view></router-view>
+    </main>
+  </div>
 </template>
 
-<style></style>
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+</style>
