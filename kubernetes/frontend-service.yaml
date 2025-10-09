@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  # LoadBalancer - стандартный способ "выставить" приложение наружу в облаке
+  type: LoadBalancer
+  selector:
+    app: frontend # Направляет трафик на поды с этой меткой
+  ports:
+    - protocol: TCP
+      port: 80 # Внешний порт
+      targetPort: 80 # Порт на подах

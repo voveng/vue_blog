@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: vue-blog-backend
+    build:
+      context: ./backend
+    volumes:
+      # Mount the source code for live reloading
+      - ./backend:/rails
+      # Use an anonymous volume to prevent host node_modules from overwriting the container's
+      - /rails/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_ENV=development
+      - DATABASE_HOST=db
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=password
+      - DATABASE_DB=vue_blog_development
+    depends_on:
+      - db
+    networks:
+      - vue-blog-net
+
+  frontend:
+    container_name: vue-blog-frontend
+    build:
+      context: ./frontend
+      target: builder
+    command: npm run dev -- --host # Run Vite dev server and expose it
+    volumes:
+      # Mount the source code for live reloading
+      - ./frontend:/app
+      # Use an anonymous volume for node_modules
+      - /app/node_modules
+    ports:
+      - "5173:5173" # Default Vite port
+    depends_on:
+      - backend
+    networks:
+      - vue-blog-net
+
+  db:
+    container_name: vue-blog-db
+    image: postgres:14-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=vue_blog_development
+    ports:
+      # Expose port for local debugging with a DB client
+      - "5432:5432"
+    networks:
+      - vue-blog-net
+
+networks:
+  vue-blog-net:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local

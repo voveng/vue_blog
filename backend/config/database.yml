@@ -1,0 +1,38 @@
+# PostgreSQL. Versions 9.3 and up are supported.
+#
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+  # Use environment variables for connection details
+  host: <%= ENV.fetch("DATABASE_HOST") { 'localhost' } %>
+  username: <%= ENV.fetch("DATABASE_USER") { 'postgres' } %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD") { '' } %>
+  database: <%= ENV.fetch("DATABASE_DB") { 'vue_blog_development' } %>
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+  database: vue_blog_test
+
+# As with config/credentials.yml, you never want to store sensitive information,
+# like your database password, in your source code. If your source code is
+# ever seen by anyone, they now have access to your database.
+#
+# Instead, use an environment variable either directly or quoted in the database
+# config file.
+#
+# Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
+# for a full rundown on how to provide these environment variables in a
+# production deployment.
+#
+production:
+  <<: *default
+  database: vue_blog_production
+  # username: vue_blog
+  # password: <%= ENV["VUE_BLOG_DATABASE_PASSWORD"] %>

@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      initContainers:
+        - name: db-migrate
+          image: vue-blog-backend:latest
+          imagePullPolicy: Never
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              until pg_isready -h db -p 5432; do
+                echo "Waiting for database..."
+                sleep 2;
+              done
+              echo "Database is ready, running migrations..."
+              rails db:migrate
+          env:
+            - name: RAILS_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-configmap
+                  key: RAILS_ENV
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-configmap
+                  key: DATABASE_HOST
+            - name: DATABASE_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-configmap
+                  key: DATABASE_USER
+            - name: DATABASE_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-configmap
+                  key: DATABASE_DB
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: DATABASE_PASSWORD
+      containers:
+        - name: backend
+          image: vue-blog-backend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          env:
+            - name: RAILS_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-configmap
+                  key: RAILS_ENV
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-configmap
+                  key: DATABASE_HOST
+            - name: DATABASE_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-configmap
+                  key: DATABASE_USER
+            - name: DATABASE_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-configmap
+                  key: DATABASE_DB
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: DATABASE_PASSWORD
+
