@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from "vue";
 import { postsService } from '../services/postsService';
 import { useErrorHandler } from '../composables/useErrorHandler';
 import authStore from '../stores/authStore';
+import Pagination from './Pagination.vue';
 
 const posts = ref([]);
 const post_id = ref(0);
@@ -10,21 +11,39 @@ const newPost = ref({
   title: "",
   body: "",
 });
+const pagination = ref({
+  current_page: 1,
+  total_pages: 1,
+  total_count: 0,
+  per_page: 20,
+  next_page: null,
+  prev_page: null
+});
+const currentPage = ref(1);
+const perPage = ref(20);
 
 const { errors, setError, clearErrors, hasErrors } = useErrorHandler();
 
-const fetchPosts = async () => {
+const fetchPosts = async (page = 1, perPageValue = 20) => {
   try {
-    const result = await postsService.getAll();
+    const result = await postsService.getAll(page, perPageValue);
     
     if (result.success) {
-      posts.value = result.data;
+      posts.value = result.data.posts;
+      pagination.value = result.data.pagination;
+      currentPage.value = result.data.pagination.current_page;
     } else {
       setError('posts', 'Failed to fetch posts');
     }
   } catch (error) {
     setError('posts', 'Unexpected error occurred while fetching posts');
     console.error('Fetch posts error:', error);
+  }
+};
+
+const changePage = (page) => {
+  if (page && page !== currentPage.value) {
+    fetchPosts(page, perPage.value);
   }
 };
 
@@ -60,7 +79,7 @@ const createPost = async () => {
     return;
   }
 
-  await fetchPosts();
+  await fetchPosts(currentPage.value, perPage.value);
   newPost.value = { title: "", body: "" };
 };
 
@@ -125,6 +144,12 @@ const isUserDataLoaded = computed(() => !!authStore.state.user);
       <p class="post-body">{{ post.body }}</p>
     </div>
   </div>
+  
+  <!-- Pagination component -->
+  <Pagination 
+    :pagination="pagination" 
+    @page-changed="changePage" 
+  />
 </template>
 
 <style scoped>

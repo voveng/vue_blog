@@ -1,8 +1,15 @@
 import api from './api';
 
 export const postsService = {
-  async getAll() {
-    return await api.get('/posts');
+  async getAll(page = 1, perPage = 20, userId = null, search = null) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('per_page', perPage);
+    
+    if (userId) params.append('user_id', userId);
+    if (search) params.append('search', search);
+    
+    return await api.get(`/posts?${params}`);
   },
 
   async getById(id) {
