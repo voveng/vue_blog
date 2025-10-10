@@ -6,8 +6,33 @@ module Api
       before_action :set_post, only: %i[edit show update destroy]
 
       def index
-        posts = Post.all
-        render json: posts
+        posts = Post.order(created_at: :desc)
+
+        posts = posts.where(user_id: params[:user_id]) if params[:user_id].present?
+
+        if params[:search].present?
+          posts = posts.where('title ILIKE ? OR body ILIKE ?',
+                              "%#{params[:search]}%",
+                              "%#{params[:search]}%")
+        end
+
+        page = params[:page] || 1
+        per_page = [params[:per_page].to_i, 100].min
+        per_page = 20 if per_page <= 0
+
+        posts = posts.page(page).per(per_page)
+
+        render json: {
+          posts: posts,
+          pagination: {
+            current_page: posts.current_page,
+            total_pages: posts.total_pages,
+            total_count: posts.total_count,
+            per_page: posts.limit_value,
+            next_page: posts.next_page,
+            prev_page: posts.prev_page
+          }
+        }
       end
 
       def show

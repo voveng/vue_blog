@@ -8,8 +8,8 @@ module Posts
     def execute
       return if errors.messages.present?
 
-      post.title = title
-      post.body = body
+      post.title = title if title.present?
+      post.body = body if body.present?
 
       errors.merge! post.errors unless post.save
       post

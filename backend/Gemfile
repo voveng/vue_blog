@@ -20,10 +20,10 @@ gem 'bootsnap', require: false
 gem 'active_interaction', '~> 5.3'
 gem 'bcrypt'
 gem 'jwt'
+gem 'kaminari'
 gem 'rack-cors'
 gem 'rubocop', require: false
 gem 'rubocop-performance', require: false
-
 
 gem 'rspec-rails'
 
