@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'POST /api/v1/sign_up', type: :request do
-
   let(:params) do
     { user: {
       name: Faker::Name.name,
@@ -40,9 +39,7 @@ RSpec.describe 'POST /api/v1/sign_up', type: :request do
   end
 
   context 'returns errors' do
-
     subject { response }
-
 
     context 'with json' do
       subject { json }

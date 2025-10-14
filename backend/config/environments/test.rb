@@ -59,4 +59,7 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
+
+  config.jwt_secret_key = 'test_jwt_secret_key_for_testing'
+  config.jwt_token_expire_time = 5.days
 end

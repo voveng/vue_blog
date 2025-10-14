@@ -36,7 +36,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_10_081418) do
     t.index ["user_id"], name: "idx_posts_user_id"
   end
 
-  create_table "posts_backup_1760084713", id: :bigint, default: -> { "nextval('posts_id_seq'::regclass)" }, force: :cascade do |t|
+  create_table "posts_backup_1760427076", id: :bigint, default: -> { "nextval('posts_id_seq'::regclass)" }, force: :cascade do |t|
     t.string "title", null: false
     t.text "body", null: false
     t.datetime "created_at", null: false
@@ -247,7 +247,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_10_081418) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "comments", "posts_backup_1760084713", column: "post_id"
+  add_foreign_key "comments", "posts_backup_1760427076", column: "post_id"
   add_foreign_key "comments", "users"
-  add_foreign_key "posts_backup_1760084713", "users"
+  add_foreign_key "posts_backup_1760427076", "users"
 end

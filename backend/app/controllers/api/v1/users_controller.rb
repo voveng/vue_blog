@@ -16,7 +16,16 @@ module Api
         sign_in_subject = CreateJwtToken.run user_params
         return render_resource_errors sign_in_subject, status: :unauthorized unless sign_in_subject.valid?
 
-        render_success({ token: sign_in_subject.result })
+        user = creation_subject.result
+        user_data = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          password_digest: user.password_digest,
+          created_at: user.created_at.to_datetime.rfc3339,
+          updated_at: user.updated_at.to_datetime.rfc3339
+        }
+        render_success({ _interaction_result: user_data }, status: :created)
       rescue BCrypt::Errors::InvalidHash
         render_errors errors: [{ key: :password, messages: [ErrorMessages.inapropriate_password] }]
       end
