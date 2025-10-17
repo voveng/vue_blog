@@ -26,6 +26,9 @@ gem 'rubocop', require: false
 gem 'rubocop-performance', require: false
 
 gem 'rspec-rails'
+gem 'sidekiq'
+gem 'pundit'
+gem 'aasm'
 
 group :development, :test do
   gem 'capybara'

@@ -3,6 +3,8 @@
 module Api
   module V1
     class CommentsController < Api::BaseController
+      skip_after_action :verify_authorized, :verify_policy_scoped
+      
       def create
         post = Post.find(params[:post_id])
         current_user = User.find(params[:user_id])

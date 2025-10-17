@@ -2,19 +2,19 @@
 
 module Api
   module V1
-    class PostsController < Api::BaseController
+    class PostsController < Api::AuthenticatedController
+      include Pundit::Authorization
+
+      skip_before_action :authorize, only: %i[index show]
+      skip_after_action :verify_authorized, only: %i[index show]
+
       before_action :set_post, only: %i[edit show update destroy]
 
       def index
-        posts = Post.order(created_at: :desc)
+        posts = policy_scope(Post).recent
 
         posts = posts.where(user_id: params[:user_id]) if params[:user_id].present?
-
-        if params[:search].present?
-          posts = posts.where('title ILIKE ? OR body ILIKE ?',
-                              "%#{params[:search]}%",
-                              "%#{params[:search]}%")
-        end
+        posts = posts.search(params[:search]) if params[:search].present?
 
         page = params[:page] || 1
         per_page = [params[:per_page].to_i, 100].min
@@ -42,7 +42,6 @@ module Api
       def edit; end
 
       def create
-        current_user = User.find(params[:post][:user_id])
         subject = Posts::CreatePost.run post_params.merge(user: current_user)
         return render_resource_errors subject unless subject.valid?
 
@@ -50,19 +49,29 @@ module Api
       end
 
       def update
-        subject = Posts::UpdatePost.run post_params.merge(post: @post)
+        subject = Posts::UpdatePost.run post_params.merge(post: @post, user: current_user)
         return render_resource_errors subject unless subject.valid?
 
         render_success
       end
 
       def destroy
-        Posts::DestroyPost.run post: @post
+        Posts::DestroyPost.run(post: @post, user: current_user)
 
         render_success
       end
 
       private
+
+      # This method provides a user object for Pundit's policy_scope.
+      # It safely finds the user from the auth token if present, or returns nil for guests.
+      # This prevents 'current_user' from raising an error on public pages.
+      def pundit_user
+        subject = CheckAuthorize.run header: request.headers['Authorization']
+        return nil unless subject.valid?
+
+        User.find_by(id: subject.result[:uid])
+      end
 
       def set_post
         @post = Post.find(params[:id])

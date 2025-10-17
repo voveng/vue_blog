@@ -18,8 +18,31 @@ services:
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=password
       - DATABASE_DB=vue_blog_development
+      - REDIS_URL=redis://redis:6379/0
     depends_on:
       - db
+      - redis
+    networks:
+      - vue-blog-net
+
+  worker:
+    container_name: vue-blog-worker
+    build:
+      context: ./backend
+    command: bundle exec sidekiq
+    volumes:
+      - ./backend:/rails
+      - /rails/node_modules
+    environment:
+      - RAILS_ENV=development
+      - DATABASE_HOST=db
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=password
+      - DATABASE_DB=vue_blog_development
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
     networks:
       - vue-blog-net
 
@@ -56,10 +79,22 @@ services:
     networks:
       - vue-blog-net
 
+  redis:
+    container_name: vue-blog-redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - vue-blog-net
+
 networks:
   vue-blog-net:
     driver: bridge
 
 volumes:
   db-data:
+    driver: local
+  redis-data:
     driver: local
