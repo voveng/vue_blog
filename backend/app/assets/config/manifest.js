@@ -1,0 +1,9 @@
+//= link_tree ../images
+//= link_directory ../javascripts .js
+//= link_directory ../stylesheets .css
+//= link trestle/admin.css
+//= link trestle/custom.css
+//= link trestle/auth/userbox.css
+//= link trestle/icons/font-awesome.css
+//= link trestle/admin.js
+//= link trestle/custom.js
