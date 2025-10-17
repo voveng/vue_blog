@@ -306,6 +306,14 @@ GEM
       logger
       rack (>= 2.2.4)
       redis-client (>= 0.22.2)
+    sprockets (4.2.2)
+      concurrent-ruby (~> 1.0)
+      logger
+      rack (>= 2.2.4, < 4)
+    sprockets-rails (3.5.2)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
+      sprockets (>= 3.0.0)
     stringio (3.1.7)
     thor (1.4.0)
     timeout (0.4.3)
@@ -378,6 +386,7 @@ DEPENDENCIES
   selenium-webdriver
   shoulda-matchers
   sidekiq
+  sprockets-rails
   trestle
   trestle-auth
   tzinfo-data

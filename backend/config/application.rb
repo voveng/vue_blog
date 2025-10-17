@@ -35,6 +35,12 @@ module VueBlog
     # Configure the session store
     config.session_store :cookie_store, key: '_vue_blog_session'
 
+    # Enable serving of static files like assets from the /public directory
+    config.public_file_server.enabled = true
+
+    # Configure Sprockets for asset pipeline
+    config.assets.enabled = true
+
     config.active_job.queue_adapter = :sidekiq
   end
 end

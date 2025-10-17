@@ -72,4 +72,7 @@ Rails.application.configure do
 
   config.jwt_secret_key = 'ch6jdh74wg460jh4dge6jfgyt63jt24e'
   config.jwt_token_expire_time = 5.days
+  
+  # Enable serving of static files like assets from the /public directory
+  config.public_file_server.enabled = true
 end
