@@ -1,6 +1,6 @@
 Trestle.resource(:posts) do
   menu do
-    item :posts, icon: "fa fa-file-text"
+    item :posts, icon: 'fa fa-file-text'
   end
 
   # Add authorization
@@ -10,7 +10,8 @@ Trestle.resource(:posts) do
   form do |post|
     text_field :title
     text_area :body
-    select :status, options: Post.statuses.keys
-    select :user_id, options: User.pluck(:name, :id), include_blank: "Select Author"
+    select :status, options: Post.aasm.states.map(&:name)
+    select :user_id, options: User.pluck(:name, :id), include_blank: 'Select Author'
   end
 end
+
