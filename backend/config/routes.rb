@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  # Mount Trestle engine
+  mount Trestle::Engine => "/admin"
+  
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :posts do

@@ -309,7 +309,18 @@ GEM
     stringio (3.1.7)
     thor (1.4.0)
     timeout (0.4.3)
+    trestle (0.10.1)
+      activemodel (>= 6.0.0)
+      kaminari (>= 1.1.0)
+      railties (>= 6.0.0)
+      turbo-rails (>= 2.0.6)
+    trestle-auth (0.5.0)
+      bcrypt (~> 3.1.7)
+      trestle (~> 0.10.0)
     tsort (0.2.0)
+    turbo-rails (2.0.12)
+      actionpack (>= 6.0.0)
+      railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (3.1.4)
@@ -367,6 +378,8 @@ DEPENDENCIES
   selenium-webdriver
   shoulda-matchers
   sidekiq
+  trestle
+  trestle-auth
   tzinfo-data
   webdrivers
 

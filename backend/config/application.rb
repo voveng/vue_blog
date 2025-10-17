@@ -22,10 +22,18 @@ module VueBlog
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # Only loads a smaller set of middleware suitable for API only apps.
-    # Middleware like session, flash, cookies can be added back manually.
-    # Skip views, helpers and assets when generating a new resource.
-    config.api_only = true
+    # Enable cookies, sessions, and flash for Trestle while maintaining API functionality
+    config.api_only = false
+
+    # Add middleware for sessions and cookies needed by Trestle
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_vue_blog_session'
+
+    # Add CSRF protection middleware for Trestle
+    config.middleware.use ActionDispatch::Flash
+
+    # Configure the session store
+    config.session_store :cookie_store, key: '_vue_blog_session'
 
     config.active_job.queue_adapter = :sidekiq
   end

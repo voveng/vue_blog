@@ -29,6 +29,8 @@ gem 'rspec-rails'
 gem 'sidekiq'
 gem 'pundit'
 gem 'aasm'
+gem 'trestle'
+gem 'trestle-auth', require: 'trestle/auth'
 
 group :development, :test do
   gem 'capybara'

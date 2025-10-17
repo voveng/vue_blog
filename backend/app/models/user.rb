@@ -17,4 +17,21 @@ class User < ApplicationRecord
   def admin?
     role == 'admin'
   end
+  
+  def display_name
+    "#{name} (#{email})"
+  end
+  
+  # Methods required for Trestle Auth
+  def first_name
+    name&.split.first || ''
+  end
+  
+  def last_name
+    name_parts = name&.split
+    name_parts&.length&.>=(2) ? name_parts[1..-1]&.join(' ') : ''
+  end
+  
+  include Trestle::Auth::ModelMethods
+  include Trestle::Auth::ModelMethods::Rememberable
 end
