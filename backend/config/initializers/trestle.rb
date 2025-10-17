@@ -3,7 +3,7 @@ Trestle.configure do |config|
   #
   # Set the page title shown in the main header within the admin.
   #
-  config.site_title = "Vue Blog Admin"
+  config.site_title = 'Vue Blog Admin'
 
   # Specify a custom image to be used in place of the site title for mobile and
   # expanded/desktop navigation. These images should be placed within your
@@ -27,7 +27,7 @@ Trestle.configure do |config|
   # Set the text shown in the page footer within the admin.
   # Defaults to 'Powered by Trestle'.
   #
-  config.footer = "Vue Blog Admin Panel"
+  config.footer = 'Vue Blog Admin Panel'
 
   # Sets the default precision for timestamps (either :minutes or :seconds).
   # Defaults to :minutes.
@@ -43,7 +43,7 @@ Trestle.configure do |config|
   # Toggle whether Trestle should automatically mount the admin within your
   # Rails application's routes. Defaults to true.
   #
-  # config.automount = false
+  config.automount = true
 
   # == Navigation Options
   #
@@ -155,7 +155,7 @@ Trestle.configure do |config|
   # Customize the method for authenticating a user given login parameters.
   # The block should return an instance of the auth user class, or nil.
   #
-  config.auth.authenticate = ->(params) {
+  config.auth.authenticate = lambda { |params|
     user = User.find_by(email: params[:email])
     user&.authenticate(params[:password]) && user.admin? ? user : nil
   }
@@ -163,7 +163,7 @@ Trestle.configure do |config|
   # Customize the method for finding a user given an ID from the session.
   # The block should return an instance of the auth user class, or nil.
   #
-  config.auth.find_user = ->(id) {
+  config.auth.find_user = lambda { |id|
     user = User.find_by(id: id)
     user if user&.admin?
   }
@@ -213,7 +213,7 @@ Trestle.configure do |config|
   # Specify the redirect location after logging out.
   # Defaults to the trestle-auth new login path.
   #
-  config.auth.redirect_on_logout = -> { "/" }
+  config.auth.redirect_on_logout = -> { '/' }
 
   # Enable or disable the built-in login/logout form and actions. Defaults to true.
   # You may wish to disable these if you are using a custom backend and
@@ -256,4 +256,3 @@ Trestle.configure do |config|
   #   { value: user.remember_token, expires: user.remember_token_expires_at }
   # }
 end
-
