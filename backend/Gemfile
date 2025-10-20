@@ -25,13 +25,12 @@ gem 'rack-cors'
 gem 'rubocop', require: false
 gem 'rubocop-performance', require: false
 
+gem 'aasm'
+gem 'pundit'
 gem 'rspec-rails'
 gem 'sidekiq'
-gem 'pundit'
-gem 'aasm'
 gem 'trestle'
 gem 'trestle-auth', require: 'trestle/auth'
-
 group :development, :test do
   gem 'capybara'
   gem 'capybara-email'
@@ -51,5 +50,5 @@ group :development do
   # gem "spring"
 end
 
-gem 'sprockets-rails'
 gem 'concurrent-ruby', '~> 1.3.4'
+gem 'sprockets-rails'

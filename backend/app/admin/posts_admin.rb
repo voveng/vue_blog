@@ -5,12 +5,23 @@ Trestle.resource(:posts) do
 
   # Add authorization
   scope :all, -> { current_user.admin? ? Post.all : Post.none }
+  build_instance do |attrs, _params|
+    model.new(attrs).tap do |instance|
+      instance.user = current_user
+      instance.user_partition = current_user.id % 16
+    end
+  end
 
-  # Customize the form
+  table do |_post|
+    column :Название, ->(post) { post.title }, link: true
+    column :Текст, ->(post) { truncate post.body, length: 50 }
+    column :Статус, ->(post) { post.status }
+    column :Дата, ->(post) { post.created_at }
+  end
+
   form do |_post|
     text_field :title
     text_area :body
     select :status, options: Post.aasm.states.map(&:name)
-    select :user_id, options: User.pluck(:name, :id), include_blank: 'Select Author'
   end
 end

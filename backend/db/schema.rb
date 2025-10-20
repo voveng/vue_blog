@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,7 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigserial "id", null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -38,7 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
     t.index ["user_id"], name: "idx_posts_user_id"
   end
 
-  create_table "posts_backup_1760084713", id: :bigint, default: -> { "nextval('posts_id_seq'::regclass)" }, force: :cascade do |t|
+  create_table "posts_backup_1760953304", id: :bigint, default: -> { "nextval('posts_id_seq'::regclass)" }, force: :cascade do |t|
     t.string "title", null: false
     t.text "body", null: false
     t.datetime "created_at", null: false
@@ -49,7 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_0", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -63,7 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_1", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -77,7 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_10", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -91,7 +91,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_11", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -105,7 +105,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_12", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -119,7 +119,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_13", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -133,7 +133,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_14", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -147,7 +147,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_15", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -161,7 +161,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_2", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -175,7 +175,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_3", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -189,7 +189,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_4", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -203,7 +203,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_5", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -217,7 +217,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_6", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -231,7 +231,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_7", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -245,7 +245,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_8", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -259,7 +259,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
   end
 
   create_table "posts_user_partition_9", id: false, force: :cascade do |t|
-    t.bigint "id", default: -> { "nextval('posts_partitioned_new_id_seq'::regclass)" }, null: false
+    t.bigint "id", default: -> { "nextval('posts_id_seq'::regclass)" }, null: false
     t.string "title", limit: 255, null: false
     t.text "body"
     t.bigint "user_id", null: false
@@ -284,7 +284,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_17_110911) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "comments", "posts_backup_1760084713", column: "post_id"
+  add_foreign_key "comments", "posts_backup_1760953304", column: "post_id"
   add_foreign_key "comments", "users"
-  add_foreign_key "posts_backup_1760084713", "users"
+  add_foreign_key "posts_backup_1760953304", "users"
 end
