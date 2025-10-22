@@ -1,4 +1,4 @@
-Trestle.resource(:posts) do
+Trestle.resource(:posts, model: Post) do
   menu do
     item :posts, icon: 'fa fa-file-text'
   end
@@ -22,6 +22,6 @@ Trestle.resource(:posts) do
   form do |_post|
     text_field :title
     text_area :body
-    select :status, options: Post.aasm.states.map(&:name)
+    select :status, options: %w[draft published], include_blank: 'Select Status'
   end
 end

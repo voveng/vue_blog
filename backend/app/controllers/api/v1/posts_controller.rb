@@ -45,6 +45,8 @@ module Api
         subject = Posts::CreatePost.run post_params.merge(user: current_user)
         return render_resource_errors subject unless subject.valid?
 
+        skip_authorization
+
         render json: subject if subject.valid?
       end
 

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class Post < ApplicationRecord
-  include AASM
+require_dependency 'posts/post_status'
 
+class Post < ApplicationRecord
   self.primary_key = 'id'
 
   scope :recent, -> { order(created_at: :desc) }
@@ -14,12 +14,35 @@ class Post < ApplicationRecord
 
   validates :title, :body, presence: true
 
-  aasm column: :status do
-    state :draft, initial: true
-    state :published
+  # Custom getter for status
+  def status
+    ::Posts::PostStatus.from_string(read_attribute(:status))
+  end
 
-    event :publish do
-      transitions from: %i[draft published], to: :published
+  # Custom setter for status
+  def status=(new_status)
+    if new_status.is_a?(::Posts::PostStatus)
+      write_attribute(:status, new_status.to_s)
+    else
+      write_attribute(:status, ::Posts::PostStatus.from_string(new_status).to_s)
     end
+  end
+
+  def publish
+    self.status = ::Posts::PostStatus.from_string(:published)
+    save
+  end
+
+  def unpublish
+    self.status = ::Posts::PostStatus.from_string(:draft)
+    save
+  end
+
+  before_validation :set_default_status, on: :create
+
+  private
+
+  def set_default_status
+    self.status ||= ::Posts::PostStatus.from_string(:draft)
   end
 end
