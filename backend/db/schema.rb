@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_21_091242) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,12 +33,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "idx_posts_created_at"
+    t.index ["slug", "user_partition"], name: "index_posts_on_slug_and_user_partition", unique: true
     t.index ["status"], name: "index_posts_on_status"
     t.index ["user_id"], name: "idx_posts_user_id"
   end
 
-  create_table "posts_backup_1760953304", id: :bigint, default: -> { "nextval('posts_id_seq'::regclass)" }, force: :cascade do |t|
+  create_table "posts_backup_1760084713", id: :bigint, default: -> { "nextval('posts_id_seq'::regclass)" }, force: :cascade do |t|
     t.string "title", null: false
     t.text "body", null: false
     t.datetime "created_at", null: false
@@ -57,7 +59,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_0_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_0_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_0_status_idx"
     t.index ["user_id"], name: "posts_user_partition_0_user_id_idx"
   end
@@ -71,7 +75,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_1_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_1_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_1_status_idx"
     t.index ["user_id"], name: "posts_user_partition_1_user_id_idx"
   end
@@ -85,7 +91,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_10_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_10_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_10_status_idx"
     t.index ["user_id"], name: "posts_user_partition_10_user_id_idx"
   end
@@ -99,7 +107,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_11_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_11_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_11_status_idx"
     t.index ["user_id"], name: "posts_user_partition_11_user_id_idx"
   end
@@ -113,7 +123,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_12_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_12_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_12_status_idx"
     t.index ["user_id"], name: "posts_user_partition_12_user_id_idx"
   end
@@ -127,7 +139,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_13_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_13_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_13_status_idx"
     t.index ["user_id"], name: "posts_user_partition_13_user_id_idx"
   end
@@ -141,7 +155,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_14_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_14_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_14_status_idx"
     t.index ["user_id"], name: "posts_user_partition_14_user_id_idx"
   end
@@ -155,7 +171,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_15_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_15_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_15_status_idx"
     t.index ["user_id"], name: "posts_user_partition_15_user_id_idx"
   end
@@ -169,7 +187,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_2_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_2_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_2_status_idx"
     t.index ["user_id"], name: "posts_user_partition_2_user_id_idx"
   end
@@ -183,7 +203,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_3_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_3_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_3_status_idx"
     t.index ["user_id"], name: "posts_user_partition_3_user_id_idx"
   end
@@ -197,7 +219,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_4_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_4_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_4_status_idx"
     t.index ["user_id"], name: "posts_user_partition_4_user_id_idx"
   end
@@ -211,7 +235,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_5_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_5_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_5_status_idx"
     t.index ["user_id"], name: "posts_user_partition_5_user_id_idx"
   end
@@ -225,7 +251,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_6_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_6_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_6_status_idx"
     t.index ["user_id"], name: "posts_user_partition_6_user_id_idx"
   end
@@ -239,7 +267,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_7_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_7_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_7_status_idx"
     t.index ["user_id"], name: "posts_user_partition_7_user_id_idx"
   end
@@ -253,7 +283,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_8_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_8_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_8_status_idx"
     t.index ["user_id"], name: "posts_user_partition_8_user_id_idx"
   end
@@ -267,7 +299,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.datetime "updated_at", precision: nil, default: -> { "now()" }, null: false
     t.integer "user_partition", null: false
     t.string "status", default: "draft", null: false
+    t.string "slug"
     t.index ["created_at"], name: "posts_user_partition_9_created_at_idx"
+    t.index ["slug", "user_partition"], name: "posts_user_partition_9_slug_user_partition_idx", unique: true
     t.index ["status"], name: "posts_user_partition_9_status_idx"
     t.index ["user_id"], name: "posts_user_partition_9_user_id_idx"
   end
@@ -284,7 +318,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_103044) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "comments", "posts_backup_1760953304", column: "post_id"
+  add_foreign_key "comments", "posts_backup_1760084713", column: "post_id"
   add_foreign_key "comments", "users"
-  add_foreign_key "posts_backup_1760953304", "users"
+  add_foreign_key "posts_backup_1760084713", "users"
 end

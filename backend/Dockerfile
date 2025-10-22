@@ -1,28 +1,42 @@
 # Dockerfile for Rails API-only Backend
+# Multi-stage build to reduce final image size
 
-FROM ruby:3.2.2-slim
+# Build stage
+FROM ruby:3.2.2-slim as builder
 
-# Install essential dependencies
-# - build-essential: for compiling gems
-# - libpq-dev: for the 'pg' gem (PostgreSQL)
+# Install essential build dependencies
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
-    postgresql-client
-
-# Clean up apt cache to reduce image size
-RUN rm -rf /var/lib/apt/lists/*
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set up work directory
 WORKDIR /rails
 
-# Install Gems
-# Gemfile.lock will be updated by bundle install since Gemfile has changed
+# Install gems
 COPY Gemfile Gemfile.lock ./
-RUN gem install bundler
-RUN bundle install
+RUN gem install bundler -v 2.6.8 && \
+    bundle config set --local retry '5' && \
+    bundle config set --local jobs "$(nproc)" && \
+    bundle install --jobs "$(nproc)" --retry 5
 
-# Copy Application Code
+# Runtime stage
+FROM ruby:3.2.2-slim
+
+# Install runtime dependencies only
+RUN apt-get update -qq && apt-get install -y --no-install-recommends \
+    postgresql-client \
+    libpq5 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up work directory
+WORKDIR /rails
+
+# Copy installed gems from the builder stage
+COPY --from=builder /usr/local/bundle /usr/local/bundle
+
+# Copy application code
 COPY . .
 
 # Expose Port
